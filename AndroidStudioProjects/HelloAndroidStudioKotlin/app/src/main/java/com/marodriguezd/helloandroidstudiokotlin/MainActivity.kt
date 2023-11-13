@@ -1,4 +1,4 @@
-package com.example.helloandroidstudiokotlin
+package com.marodriguezd.helloandroidstudiokotlin
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

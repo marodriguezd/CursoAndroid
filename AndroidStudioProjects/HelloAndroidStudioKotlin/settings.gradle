@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='Hello Android Studio'
+rootProject.name='Hello Android Studio Kotlin'
