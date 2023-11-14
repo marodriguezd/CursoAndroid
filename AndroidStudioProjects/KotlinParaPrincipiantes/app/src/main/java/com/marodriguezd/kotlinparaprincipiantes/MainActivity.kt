@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
             KotlinParaPrincipiantesTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
+                    Greeting("Hackermen")  // Android
                 }
             }
 
@@ -33,6 +33,9 @@ class MainActivity : ComponentActivity() {
     private fun variablesYConstantes(){
         // Variables
 
+        var myFirstVariable = "Hello Hackermen!"
+
+        println(myFirstVariable)
     }
 }
 
@@ -48,6 +51,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     KotlinParaPrincipiantesTheme {
-        Greeting("Android")
+        Greeting("Hackermen")  // Android
     }
 }
