@@ -21,9 +21,10 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     Greeting("Hackermen")  // Android
                 }
-            }
 
-            variablesYConstantes()
+
+                variablesYConstantes()
+            }
         }
     }
 
@@ -34,6 +35,26 @@ class MainActivity : ComponentActivity() {
         // Variables
 
         var myFirstVariable = "Hello Hackermen!"
+        var myFirstNumber = 1
+
+        println(myFirstVariable)
+
+        myFirstVariable = "Bienvenidos a Mouredev"
+
+        println(myFirstVariable)
+
+        // No podemos asignar un tipo Int a una variable de tipo String
+        // myFirstVariable = 1
+
+        var mySecondVariable = "Suscríbete!"
+
+        println(mySecondVariable)
+
+        mySecondVariable = myFirstVariable
+
+        println(mySecondVariable)
+
+        myFirstVariable = "¿Ya te has suscrito?"
 
         println(myFirstVariable)
     }
