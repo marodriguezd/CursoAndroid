@@ -57,6 +57,19 @@ class MainActivity : ComponentActivity() {
         myFirstVariable = "¿Ya te has suscrito?"
 
         println(myFirstVariable)
+
+        // Constantes
+
+        val myFirstConstant = "¿Te ha gustado el tutorial?"
+
+        println(myFirstConstant)
+
+        // Una constante no puede modificar su valor
+        // myFirstConstant = "Si te ha gustado, dale a LIKE"
+
+        val mySecondConstant = myFirstVariable
+
+        println(mySecondConstant)
     }
 }
 
