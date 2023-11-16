@@ -26,7 +26,10 @@ class MainActivity : ComponentActivity() {
                 // variablesYConstantes()
 
                 // Lección 2
-                tiposDeDatos()
+                // tiposDeDatos()
+
+                // Lección 3
+                sentenciaIf()
             }
         }
     }
@@ -109,6 +112,32 @@ class MainActivity : ComponentActivity() {
         // val myBool3 = myBool + myBool2  // No funciona obvio
         println(myBool == myBool2)
         println(myBool && myBool2)  // Es como un si ambos son true
+
+    }
+
+    /*
+    Aquí vamos a hablar de la sentencia if
+     */
+    private fun sentenciaIf(){
+
+        val myNumber = 12
+
+        // Operadores condicionales
+        // > mayor que
+        // < menor que
+        // >= mayor o igual que
+        // <= menor o igual que
+        // == igualdad
+        // != desigualdad
+
+        if (myNumber <= 10){
+            // Sentencia if
+            println("$myNumber es menor o igual que 10")
+        } else {
+            // Sentencia else
+            println("$myNumber es mayor que 10")
+        }
+
 
     }
 }
