@@ -29,7 +29,10 @@ class MainActivity : ComponentActivity() {
                 // tiposDeDatos()
 
                 // Lección 3
-                sentenciaIf()
+                // sentenciaIf()
+
+                // Lección 4
+                sentenciaWhen()
             }
         }
     }
@@ -120,7 +123,7 @@ class MainActivity : ComponentActivity() {
      */
     private fun sentenciaIf(){
 
-        val myNumber = 71
+        val myNumber = 70
 
         // Operadores condicionales
         // > mayor que
@@ -151,8 +154,46 @@ class MainActivity : ComponentActivity() {
             // Sentencia else
             println("$myNumber es mayor que 10 o menor o igual que 5 y no es igual a 53")
         }
+    }
 
+    /*
+    Aquí vamos a hablar de la sentencia when (switch)
+     */
+    private fun sentenciaWhen() {
 
+        // When con String
+        val country = "Italia"
+
+        when (country) {
+            "España", "México", "Perú", "Colombia", "Argentina" -> {
+                println("El idioma es Español")
+            } "EEUU" -> {
+                println("El idioma es Inglés")
+            } "Francia" -> {
+                println("El idioma es Francés")
+            } else -> {
+                println("No conocemos el idioma")
+            }
+        }
+
+        // When con Int
+        val age = 10
+
+        when (age) {
+            0, 1, 2 -> {
+                println("Eres un bebé")
+            } in 3..10 -> {  // Para poner un rango de números
+                println("Eres un niño")
+            } in 11..17 -> {
+                println("Eres un adolescente")
+            } in 18..69 -> {
+                println("Eres adulto")
+            } in 70..99 -> {
+                println("Eres anciano")
+            } else -> {
+                println("😱")
+            }
+        }
     }
 }
 
