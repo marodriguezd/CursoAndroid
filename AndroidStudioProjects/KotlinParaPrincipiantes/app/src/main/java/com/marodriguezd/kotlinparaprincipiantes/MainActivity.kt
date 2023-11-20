@@ -32,7 +32,10 @@ class MainActivity : ComponentActivity() {
                 // sentenciaIf()
 
                 // Lección 4
-                sentenciaWhen()
+                // sentenciaWhen()
+
+                // Lección 5
+                arrays()
             }
         }
     }
@@ -194,6 +197,73 @@ class MainActivity : ComponentActivity() {
                 println("😱")
             }
         }
+    }
+
+    /*
+    Aquí vamos a hablar de arrays o arreglos
+     */
+    private fun arrays() {
+
+        val name = "Brais"
+        val surname = "Moure"
+        val company = "MoureDev"
+        val age = "32"
+
+        // Creación de un Array
+
+        val myArray = arrayListOf<String>()
+
+        // Añadir datos de uno en uno
+
+        myArray.add(name)
+        myArray.add(surname)
+        myArray.add(company)
+        myArray.add(age)
+
+        println(myArray)
+
+        // Añadir un conjunto de datos
+
+        myArray.addAll(listOf("Hola", "Bienvenidos al tutorial"))
+
+        println(myArray)
+
+        // Acceso a datos
+
+        val myCompany = myArray[2]
+
+        println(myCompany)
+
+        // Modificación de datos
+
+        myArray[5] = "Suscríbete y activa la campana"
+
+        println(myArray)
+
+        // Eliminar datos
+
+        myArray.removeAt(4)
+
+        println(myArray)
+
+        // Recorrer datos
+
+        myArray.forEach {
+            println(it)  // it es el valor que toma cada que accede a un dato.
+        }
+
+        // Otras operaciones
+
+        println(myArray.count())  // Como el len de Python
+
+        myArray.clear()  // Para vaciar el array
+
+        println(myArray.count())
+
+        myArray.first()  // Para acceder al primer elemento
+        myArray.last()  // Para acceder al último elemento
+
+        myArray.sort()  // Para ordenar, habiendo varios donde elegir
     }
 }
 
