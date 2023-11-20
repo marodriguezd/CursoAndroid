@@ -35,7 +35,10 @@ class MainActivity : ComponentActivity() {
                 // sentenciaWhen()
 
                 // Lección 5
-                arrays()
+                // arrays()
+
+                // Lección 6
+                maps()
             }
         }
     }
@@ -264,6 +267,43 @@ class MainActivity : ComponentActivity() {
         myArray.last()  // Para acceder al último elemento
 
         myArray.sort()  // Para ordenar, habiendo varios donde elegir
+    }
+
+    /*
+    Aquí vamos a hablar de mapas, también llamados diccionarios
+     */
+    private fun maps() {
+
+        // Sintaxis
+        var myMap: Map<String, Int> = mapOf()  // Para inicializar el mapa vacío
+        println(myMap)
+
+        // Añadir elementos
+        myMap = mapOf("Brais" to 1, "Pedro" to 2, "Sara" to 5)  // como en Python con {"Clave": valor}
+        // Esto nos crea un mapa que no es mutable, no se puede editar/añadir más.
+        myMap = mutableMapOf("Brais" to 1, "Pedro" to 2, "Sara" to 5)
+        // De esta manera ya sí que podremos añadir más abajo cosas
+        println(myMap)
+
+        // Añadir un solo valor
+        myMap["Ana"] = 7  // Forma 1 de añadir un valor
+        myMap.put("María", 8)  // Forma 2 de añadir un valor
+        println(myMap)
+
+        // Actualización de un dato
+        myMap.put("Brais", 3)  // Modifica el valor de la clave Brais
+        // con put se añade tanto como se actualiza
+        println(myMap)
+
+        myMap.put("Marcos", 3)  // Los valores se pueden repetir sin problema alguno.
+        println(myMap)
+
+        // Acceso a un dato
+        println(myMap["Brais"])
+
+        // Eliminar un dato
+        myMap.remove("Brais")
+        println(myMap)
     }
 }
 
