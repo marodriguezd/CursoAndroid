@@ -38,7 +38,10 @@ class MainActivity : ComponentActivity() {
                 // arrays()
 
                 // Lección 6
-                maps()
+                // maps()
+
+                // Lección 7
+                loops()
             }
         }
     }
@@ -304,6 +307,59 @@ class MainActivity : ComponentActivity() {
         // Eliminar un dato
         myMap.remove("Brais")
         println(myMap)
+    }
+
+    /*
+    Aquí vamos a hablar de loops, también llamados bucles
+     */
+    private fun loops() {
+
+        // Bucles
+
+        val myArray = listOf("Hola", "Bienvenidos al tutorial", "Suscríbete")
+        val myMap = mutableMapOf("Brais" to 1, "Pedro" to 2, "Sara" to 5)
+
+        // For
+
+        for (myString in myArray) {  // Lo primero es iterador y lo segundo la lista
+            println(myString)
+        }
+
+        for (myElement in myMap) {  // Iterador y Map
+            println("${myElement.key}-${myElement.value}")  // Mostrar clave-valor
+        }
+
+        for (x in 0..10) {  // Iterar de 0 a 10 inclusive
+            println(x)
+        }
+
+        for (x in 0 until 10) {  // Iterar de 0 a 10, siendo más como Java
+            println(x)
+        }
+
+        for (x in 0 .. 10 step 2) {  // Iterar de 0 a 10 yendo de par en par
+            println(x)
+        }
+
+
+        for (x in 10 downTo 0 step 3) {  // Iterar de 10 a 0 yendo de 3 en 3
+            println(x)
+        }
+
+        val myNumericArray = (0..20)  // Directo de 0 a 20 súper easy
+        for (myNum in myNumericArray) {
+            println(myNum)
+        }
+
+        // While
+
+        var x = 0
+
+        while (x < 10) {
+            println(x)
+            // x++  // Funciona igual que en Java
+            x += 2  // Y obvio como en Python
+        }
     }
 }
 
