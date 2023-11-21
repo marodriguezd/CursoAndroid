@@ -41,7 +41,10 @@ class MainActivity : ComponentActivity() {
                 // maps()
 
                 // Lección 7
-                loops()
+                // loops()
+
+                // Lección 8
+                nullSafety()
             }
         }
     }
@@ -360,6 +363,48 @@ class MainActivity : ComponentActivity() {
             // x++  // Funciona igual que en Java
             x += 2  // Y obvio como en Python
         }
+    }
+
+    /*
+    Aquí vamos a hablar de seguridad contra nulos ( Null Safety)
+     */
+    private fun nullSafety() {
+
+        var myString = "MoureDev"
+        // myString = null  // Esto daría un error de compilación
+        println(myString)
+
+        // Variable null safety
+        var mySafetyString: String? = "MoureDev null safety"
+        mySafetyString = null
+        println(mySafetyString)
+
+        mySafetyString = "Suscríbete!"
+        // println(mySafetyString)
+
+        /*
+        // Este bloque no funciona a día de hoy aparentemente
+        println(mySafetyString!!)  // !! Es para sí o sí solo imprima si no es nulo
+
+        if (mySafetyString != null) {
+            println(mySafetyString!!)  // !! Es para sí o sí solo imprima si no es nulo
+        } else {
+            println(mySafetyString!!)
+         */
+
+        // Safe call
+
+        println(mySafetyString?.length)  // Si es null no ejecuta la instrucción y saca null
+
+        mySafetyString?.let {  // Solo ejecuta ese bloque de código si no es null
+            println(it)  // it == mySafetyString!!  // Que fuerza que no sea nulo para ejecutar
+        } ?: run {  // En caso de nulo ejecuta esto
+            println(mySafetyString)
+        }
+
+        /*
+        De esta forma siempre estamos obligados a controlar los nulos con nulables
+         */
     }
 }
 
