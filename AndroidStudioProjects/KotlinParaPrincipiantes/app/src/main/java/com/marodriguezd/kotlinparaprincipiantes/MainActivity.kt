@@ -44,7 +44,10 @@ class MainActivity : ComponentActivity() {
                 // loops()
 
                 // Lección 8
-                nullSafety()
+                // nullSafety()
+
+                // Lección 9
+                funciones()
             }
         }
     }
@@ -405,6 +408,50 @@ class MainActivity : ComponentActivity() {
         /*
         De esta forma siempre estamos obligados a controlar los nulos con nulables
          */
+    }
+
+    /*
+    Aquí vamos a hablar de funciones
+     */
+    private fun funciones() {
+
+        sayHello()
+        sayHello()
+        sayHello()
+
+        sayMyName("Brais")
+        sayMyName("Pedro")
+        sayMyName("Sara")
+
+        sayMyNameAndAge("Brais", 32)
+
+        val sumResult = sumTwoNumbers(10, 5)
+        println(sumResult)
+
+        println(sumTwoNumbers(15, 9))
+
+        println(sumTwoNumbers(10, sumTwoNumbers(5, 5)))
+    }
+
+    // Función simple
+    fun sayHello(){
+        println("Hola!")
+    }
+
+    // Funciones con un parámetro de entrada
+    fun sayMyName(name: String) {
+        println("Hola, mi nombre es $name")
+    }
+
+    // Funciones con un parámetro de entrada
+    fun sayMyNameAndAge(name: String, edad: Int) {
+        println("Hola, mi nombre es $name y mi edad es $edad")
+    }
+
+    // Funciones con un valor de retorno
+    fun sumTwoNumbers(firstNumber: Int, secondNumber: Int) : Int {  // : Int es el tipo de retorno
+        val sum = firstNumber + secondNumber
+        return sum  // Esto es igual a Java
     }
 }
 
