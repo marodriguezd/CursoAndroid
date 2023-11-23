@@ -47,7 +47,10 @@ class MainActivity : ComponentActivity() {
                 // nullSafety()
 
                 // Lección 9
-                funciones()
+                // funciones()
+
+                // Lección 10
+                classes()
             }
         }
     }
@@ -452,6 +455,25 @@ class MainActivity : ComponentActivity() {
     fun sumTwoNumbers(firstNumber: Int, secondNumber: Int) : Int {  // : Int es el tipo de retorno
         val sum = firstNumber + secondNumber
         return sum  // Esto es igual a Java
+    }
+
+    /*
+    Aquí vamos a hablar de las clases
+     */
+    private fun classes() {
+
+        val brais = Programmer("Brais", 32, arrayOf(Programmer.Language.KOTLIN,
+                                                                Programmer.Language.SWIFT))
+        println(brais.name)
+
+        brais.age = 40
+        brais.code()
+
+        val sara = Programmer("Sara", 35, arrayOf(Programmer.Language.JAVA), arrayOf(brais))
+        sara.code()
+
+        println("${sara.friends?.first()?.name} es amigo de ${sara.name}")
+
     }
 }
 
