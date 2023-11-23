@@ -24,12 +24,51 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Greeting("Hackermen")
                 }
+
+                // Enum Classes
+                enumClasses()
             }
         }
+    }
 
-        /*
-        Molocotones
-         */
+    // Lección 1 Kotlin Intermedio: Enum Classes
+
+    enum class Direction(val dir: Int) {
+
+        NORTH(1), SOUTH(-1), EAST(1), WEST(-1);
+
+        fun description() : String {
+
+            return when (this) {  // Mejor que if-elseif-else
+                NORTH -> "La dirección es NORTE"
+                SOUTH -> "La dirección es SUR"
+                EAST -> "La dirección es ESTE"
+                WEST -> "La dirección es OESTE"
+            }
+        }
+    }
+
+    private fun enumClasses() {
+
+        // Asignación de valores
+        var userDirection: Direction? = null
+        println("Dirección: $userDirection")
+
+        userDirection = Direction.NORTH
+        println("Dirección: $userDirection")
+
+        userDirection = Direction.WEST
+        println("Dirección: $userDirection")
+
+        // Propiedades por defecto
+        println("Propiedad name: ${userDirection.name}")
+        println("Propiedad ordinal: ${userDirection.ordinal}")
+
+        // Funciones
+        println(userDirection.description())
+
+        // Inicialización
+        println(userDirection.dir)
     }
 }
 
