@@ -27,6 +27,9 @@ class MainActivity : ComponentActivity() {
 
                 // Enum Classes
                 enumClasses()
+
+                // Nested and Inner Classes
+                nestedAndInnerClasses()
             }
         }
     }
@@ -69,6 +72,20 @@ class MainActivity : ComponentActivity() {
 
         // Inicialización
         println(userDirection.dir)
+    }
+
+    // Lección 2 Kotlin Intermedio: Nested and Inner Classes
+    private fun nestedAndInnerClasses() {
+
+        // Clase anidada (nested)
+        val myNestedClass = NestedAnInnerClass.MyNestedClass()  // Esto instancia la clase anidada
+        val sum = myNestedClass.sum(10, 5)
+        println("El resultado de la suma es $sum")
+
+        // Clase interna (inner)
+        val myInnerClass = NestedAnInnerClass().MyInnerClass()  // Intanciamos clase padre e interna
+        val sumTwo = myInnerClass.sumTwo(10)
+        println("El resultado de sumar dos es $sumTwo")
     }
 }
 
