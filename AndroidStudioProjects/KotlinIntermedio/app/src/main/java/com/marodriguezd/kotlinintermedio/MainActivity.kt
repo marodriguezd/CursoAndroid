@@ -30,6 +30,9 @@ class MainActivity : ComponentActivity() {
 
                 // Nested and Inner Classes
                 nestedAndInnerClasses()
+
+                // Class Inheritance
+                classInheritance()
             }
         }
     }
@@ -86,6 +89,22 @@ class MainActivity : ComponentActivity() {
         val myInnerClass = NestedAnInnerClass().MyInnerClass()  // Intanciamos clase padre e interna
         val sumTwo = myInnerClass.sumTwo(10)
         println("El resultado de sumar dos es $sumTwo")
+    }
+
+    // Lección 3 Kotlin Intermedio: Class Inheritance
+    private fun classInheritance() {
+
+        val person = Person("Sara", 40)
+
+        val programmer = Programmer("Brais", 33, "Kotlin")
+        programmer.work()
+        programmer.sayLanguage()
+        programmer.goToWork()
+        programmer.drive()
+
+        val designer = Designer("Juan", 30)
+        designer.work()
+        designer.goToWork()
     }
 }
 
