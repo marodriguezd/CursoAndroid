@@ -38,7 +38,10 @@ class MainActivity : ComponentActivity() {
                 // interfaces()
 
                 // Visibility Modifiers
-                visibilityModifiers()
+                // visibilityModifiers()
+
+                // Data Classes
+                dataClasses()
             }
         }
     }
@@ -130,6 +133,44 @@ class MainActivity : ComponentActivity() {
         visibility.sayMyName()*/
 
         val visibilityTwo = VisibilityTwo()
+    }
+
+    // Lección 6 Kotlin Intermedio: Data Classes
+    private fun dataClasses() {
+
+        val brais = Worker("Brais Moure", 33, "Programador")
+        brais.lastWork = "Músico"
+
+        val sara = Worker()
+
+        val mouredev = Worker("Brais Moure", 33, "Programador")
+        brais.lastWork = "Músico"
+
+        // equals & hashCode
+        if (brais.equals(sara)) {
+            println("Son iguales")
+        } else {
+            println("No son iguales")
+        }
+
+        if (brais == mouredev) {
+            println("Son iguales")
+        } else {
+            println("No son iguales")
+        }
+
+        // toString
+        println(brais.toString())
+
+        // copy
+        val brais2 = brais.copy(age = 34)
+        println(brais.toString())
+        println(brais2.toString())
+
+        // componentN
+        val (name, age) = mouredev
+        println(name)
+        println(age)
     }
 }
 
