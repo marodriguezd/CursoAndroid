@@ -35,7 +35,10 @@ class MainActivity : ComponentActivity() {
                 // classInheritance()
 
                 // Interfaces
-                interfaces()
+                // interfaces()
+
+                // Visibility Modifiers
+                visibilityModifiers()
             }
         }
     }
@@ -117,6 +120,16 @@ class MainActivity : ComponentActivity() {
         val gamer = Person("Brais", 33)
         gamer.play()
         gamer.stream()
+    }
+
+    // Lección 5 Kotlin Intermedio: Visibility Modifiers
+    private fun visibilityModifiers() {
+
+        /*val visibility = Visibility()
+        visibility.name = "Brais"
+        visibility.sayMyName()*/
+
+        val visibilityTwo = VisibilityTwo()
     }
 }
 
