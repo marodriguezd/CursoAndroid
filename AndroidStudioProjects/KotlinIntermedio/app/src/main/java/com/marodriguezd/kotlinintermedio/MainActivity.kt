@@ -26,13 +26,16 @@ class MainActivity : ComponentActivity() {
                 }
 
                 // Enum Classes
-                enumClasses()
+                // enumClasses()
 
                 // Nested and Inner Classes
-                nestedAndInnerClasses()
+                // nestedAndInnerClasses()
 
                 // Class Inheritance
-                classInheritance()
+                // classInheritance()
+
+                // Interfaces
+                interfaces()
             }
         }
     }
@@ -105,6 +108,15 @@ class MainActivity : ComponentActivity() {
         val designer = Designer("Juan", 30)
         designer.work()
         designer.goToWork()
+    }
+
+    // Lección 4 Kotlin Intermedio: Interfaces
+    private fun interfaces() {
+
+        // No se puede instancias solo la interfaz, debe venir heredada en una clase.
+        val gamer = Person("Brais", 33)
+        gamer.play()
+        gamer.stream()
     }
 }
 
