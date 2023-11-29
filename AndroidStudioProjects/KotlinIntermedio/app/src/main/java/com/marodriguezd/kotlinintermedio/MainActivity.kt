@@ -12,6 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.marodriguezd.kotlinintermedio.ui.theme.KotlinIntermedioTheme
 
+// Con el type alias podemos crear nuestro propio "tipo".
+// También se puede usar para representar funciones.
+// Clases anidadas cumplen esta condición.
+typealias MyMapList = MutableMap<Int, ArrayList<String>>  // Con esto facilitamos la creación datil.
+typealias MyFun = (Int, String, MyMapList) -> Boolean
+typealias MyNestedClass = NestedAnInnerClass.MyNestedClass
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +48,10 @@ class MainActivity : ComponentActivity() {
                 // visibilityModifiers()
 
                 // Data Classes
-                dataClasses()
+                // dataClasses()
+
+                // Type aliases
+                typeAliases()
             }
         }
     }
@@ -90,12 +100,14 @@ class MainActivity : ComponentActivity() {
     private fun nestedAndInnerClasses() {
 
         // Clase anidada (nested)
-        val myNestedClass = NestedAnInnerClass.MyNestedClass()  // Esto instancia la clase anidada
+        val myNestedClass = MyNestedClass()  // Esto instancia la clase anidada
+        // val myNestedClass = NestedAnInnerClass.MyNestedClass()  // Esto instancia la clase anidada
         val sum = myNestedClass.sum(10, 5)
         println("El resultado de la suma es $sum")
 
         // Clase interna (inner)
-        val myInnerClass = NestedAnInnerClass().MyInnerClass()  // Intanciamos clase padre e interna
+        val myInnerClass = MyNestedClass()  // Intanciamos clase padre e interna
+        // val myInnerClass = NestedAnInnerClass().MyInnerClass()  // Intanciamos clase padre e interna
         val sumTwo = myInnerClass.sumTwo(10)
         println("El resultado de sumar dos es $sumTwo")
     }
@@ -171,6 +183,21 @@ class MainActivity : ComponentActivity() {
         val (name, age) = mouredev
         println(name)
         println(age)
+    }
+
+    // Lección 7 Kotlin Intermedio: Type aliases
+
+    private var myMap: MyMapList = mutableMapOf()
+    // private var myMap: MutableMap<Int, ArrayList<String>> = mutableMapOf()
+
+    private fun typeAliases() {
+
+        var myNewMap: MyMapList = mutableMapOf()
+        // var myNewMap: MutableMap<Int, ArrayList<String>> = mutableMapOf()
+        myNewMap[1] = arrayListOf("Brais", "Moure")
+        myNewMap[2] = arrayListOf("MoureDev", "by Brais Moure")
+
+        myMap = myNewMap
     }
 }
 
