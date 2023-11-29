@@ -106,8 +106,7 @@ class MainActivity : ComponentActivity() {
         println("El resultado de la suma es $sum")
 
         // Clase interna (inner)
-        val myInnerClass = MyNestedClass()  // Intanciamos clase padre e interna
-        // val myInnerClass = NestedAnInnerClass().MyInnerClass()  // Intanciamos clase padre e interna
+        val myInnerClass = NestedAnInnerClass().MyInnerClass()  // Intanciamos clase padre e interna
         val sumTwo = myInnerClass.sumTwo(10)
         println("El resultado de sumar dos es $sumTwo")
     }
