@@ -51,7 +51,10 @@ class MainActivity : ComponentActivity() {
                 // dataClasses()
 
                 // Type aliases
-                typeAliases()
+                // typeAliases()
+
+                // Destructuring declarations
+                destructuringDeclarations()
             }
         }
     }
@@ -197,6 +200,31 @@ class MainActivity : ComponentActivity() {
         myNewMap[2] = arrayListOf("MoureDev", "by Brais Moure")
 
         myMap = myNewMap
+    }
+
+    // Lección 8 Kotlin Intermedio: Destructuring declarations
+    private fun destructuringDeclarations() {
+
+        // Si no queremos el valor de en medio podemos poner un _ para usar la desestructuración
+        // de manera más eficiente.
+        val (name, _, work) = Worker("Brais Moure", 34, "Programador")
+        // val (name, age, work) = Worker("Brais Moure", 34, "Programador")
+        println("$name, $work")
+
+        val mouredev = Worker("Brais Moure", 34, "Programador")
+        println(mouredev.component1())
+
+        val (braisName, braisAge) = myWorker()  // Podemos quedarnos solo con las 2 primeras por ej.
+        println("$braisName, $braisAge")
+
+        val myMap = mapOf(1 to "Brais", 2 to "Ana", 3 to "Sara")
+        for ((id, name) in myMap) {
+            println("$id, $name")
+        }
+    }
+
+    private fun myWorker(): Worker {
+        return Worker("Brais Moure", 34, "Programador")
     }
 }
 
