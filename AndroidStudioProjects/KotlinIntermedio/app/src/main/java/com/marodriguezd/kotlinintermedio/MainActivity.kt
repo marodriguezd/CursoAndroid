@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.marodriguezd.kotlinintermedio.ui.theme.KotlinIntermedioTheme
+import java.util.Date
 
 // Con el type alias podemos crear nuestro propio "tipo".
 // También se puede usar para representar funciones.
@@ -54,7 +55,13 @@ class MainActivity : ComponentActivity() {
                 // typeAliases()
 
                 // Destructuring declarations
-                destructuringDeclarations()
+                // destructuringDeclarations()
+
+                // Extensions
+                extensions()
+
+                //
+
             }
         }
     }
@@ -225,6 +232,18 @@ class MainActivity : ComponentActivity() {
 
     private fun myWorker(): Worker {
         return Worker("Brais Moure", 34, "Programador")
+    }
+
+    // Lección 9 Kotlin Intermedio: Extensions
+    private fun extensions() {
+
+        val myDate = Date()
+        println(myDate.customFormat())
+        println(myDate.formatSize)
+
+        var myDateNullable: Date? = null
+        println(myDateNullable.customFormat())
+        println(myDateNullable.formatSize)
     }
 }
 
