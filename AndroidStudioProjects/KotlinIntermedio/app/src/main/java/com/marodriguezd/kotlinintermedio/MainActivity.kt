@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.marodriguezd.kotlinintermedio.ui.theme.KotlinIntermedioTheme
 import java.util.Date
+import kotlin.concurrent.thread
 
 // Con el type alias podemos crear nuestro propio "tipo".
 // También se puede usar para representar funciones.
@@ -58,9 +59,10 @@ class MainActivity : ComponentActivity() {
                 // destructuringDeclarations()
 
                 // Extensions
-                extensions()
+                // extensions()
 
-                //
+                // Lambdas
+                lambdas()
 
             }
         }
@@ -244,6 +246,53 @@ class MainActivity : ComponentActivity() {
         var myDateNullable: Date? = null
         println(myDateNullable.customFormat())
         println(myDateNullable.formatSize)
+    }
+
+    // Lección 10: Kotlin Intermedio: Lambdas
+    private fun lambdas() {
+
+        val myIntList = arrayListOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+        val myFilterIntList = myIntList.filter { myInt ->
+
+            println(myInt)
+            if (myInt == 1) {
+                return@filter true
+            }
+
+            myInt > 5
+        }
+        /*val myFilterIntList = myIntList.filter {
+            it > 5
+        }*/
+        println(myFilterIntList)
+
+        val mySumFun = fun (x: Int, y: Int): Int = x + y // Ver. resumida si es simple el return.
+        /*val mySumFun = fun (x: Int, y: Int): Int {
+           return x + y
+        }*/
+        val myMultFun = fun (x: Int, y: Int): Int = x * y
+
+        myAsyncFun("MoureDev") {
+            println(it)
+        }
+
+        println(myOperateFun(5, 10, mySumFun))
+        println(myOperateFun(5, 10, myMultFun))
+        println(myOperateFun(5, 10) { x, y -> x - y })  // Return implícito
+
+    }
+
+    private fun myOperateFun(x: Int, y: Int, myFun: (Int, Int) -> Int): Int {
+        return myFun(x,y)
+    }
+
+    private fun myAsyncFun(name: String, hello: (String) -> Unit) {  // Unit es como void de Java.
+        val myNewString = "Hello $name!"
+
+        thread {
+            Thread.sleep(5000)
+            hello(myNewString)
+        }
     }
 }
 
