@@ -293,6 +293,16 @@ class MainActivity : ComponentActivity() {
             Thread.sleep(5000)
             hello(myNewString)
         }
+
+        thread {
+            Thread.sleep(1000)
+            hello(myNewString)
+        }
+
+        thread {
+            Thread.sleep(7000)
+            hello(myNewString)
+        }
     }
 }
 
