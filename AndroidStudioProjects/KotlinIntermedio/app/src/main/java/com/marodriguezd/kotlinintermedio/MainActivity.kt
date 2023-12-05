@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
 
         NORTH(1), SOUTH(-1), EAST(1), WEST(-1);
 
-        fun description() : String {
+        fun description(): String {
 
             return when (this) {  // Mejor que if-elseif-else
                 NORTH -> "La dirección es NORTE"
@@ -266,11 +266,11 @@ class MainActivity : ComponentActivity() {
         }*/
         println(myFilterIntList)
 
-        val mySumFun = fun (x: Int, y: Int): Int = x + y // Ver. resumida si es simple el return.
+        val mySumFun = fun(x: Int, y: Int): Int = x + y // Ver. resumida si es simple el return.
         /*val mySumFun = fun (x: Int, y: Int): Int {
            return x + y
         }*/
-        val myMultFun = fun (x: Int, y: Int): Int = x * y
+        val myMultFun = fun(x: Int, y: Int): Int = x * y
 
         myAsyncFun("MoureDev") {
             println(it)
@@ -283,7 +283,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun myOperateFun(x: Int, y: Int, myFun: (Int, Int) -> Int): Int {
-        return myFun(x,y)
+        return myFun(x, y)
     }
 
     private fun myAsyncFun(name: String, hello: (String) -> Unit) {  // Unit es como void de Java.
