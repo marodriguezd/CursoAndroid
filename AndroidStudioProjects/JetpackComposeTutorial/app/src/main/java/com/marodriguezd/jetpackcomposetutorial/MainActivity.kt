@@ -1,5 +1,6 @@
 package com.marodriguezd.jetpackcomposetutorial
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,7 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.marodriguezd.jetpackcomposetutorial.ui.theme.JetpackComposeTutorialTheme
+import com.marodriguezd.jetpackcomposetutorial.ui.theme.*
+import java.time.format.TextStyle
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +46,9 @@ fun MyComponent() {
     // Vamos a añadirle un modificador. Hay que ir concatenando cada modificación ya que es funcional.
     // Cada modificador realiza cambios sobre el elemento actual y lo devuelve modificado, devolviendo
     // un nuevo modifier. Al que le podemos seguir aplicando nuevos modificadores. Se ejecutan en orden.
-    Row(modifier = Modifier.padding(8.dp)) {
+    Row(modifier = Modifier
+        .background(MaterialTheme.colorScheme.background)
+        .padding(8.dp)) {
         MyImage()
         MyTexts()
     }
@@ -72,21 +76,26 @@ fun MyTexts() {
 
     // De esta manera los tendríamos en filas y orden de primero a último de arriba a abajo
     Column(modifier = Modifier.padding(start = 8.dp)) {
-        MyText("Hola Jetpack Compose!", MaterialTheme.colorScheme.outline)
+        MyText("Hola Jetpack Compose!",
+            MaterialTheme.colorScheme.primary,
+            MaterialTheme.typography.bodyMedium)
         // También hay modificadores para meter espaciado en anchura y/o altura
         Spacer(modifier = Modifier.height(16.dp))
-        MyText("¿Preparado?", MaterialTheme.colorScheme.outline)
+        MyText("¿Preparado?",
+            MaterialTheme.colorScheme.onBackground,
+            MaterialTheme.typography.bodySmall)
     }
 }
 
 // Un componente composable es una función
 @Composable
-fun MyText(text: String, color: Color) {
-    Text(text, color = color)
+fun MyText(text: String, color: Color, style: androidx.compose.ui.text.TextStyle) {
+    Text(text, color = color, style = style)
 }
 
 // Para usar una preview debe ser composable y anotarlo como preview (ahorramos emulador)
 @Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewComponents() {
     // Puesto así se superponen también
@@ -94,5 +103,7 @@ fun PreviewComponents() {
     MyTexts()*/
 
     // De esta manera no se superponen sino que van a columnas
-    MyComponent()
+    JetpackComposeTutorialTheme {
+        MyComponent()
+    }
 }
