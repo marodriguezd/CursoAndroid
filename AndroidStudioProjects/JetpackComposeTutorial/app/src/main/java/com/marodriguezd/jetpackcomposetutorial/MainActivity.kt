@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -27,19 +33,19 @@ import androidx.compose.ui.unit.dp
 import com.marodriguezd.jetpackcomposetutorial.ui.theme.*
 
 private val messages: List<MyMessage> = listOf(
-    MyMessage("Hola Jetpack Compose!", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 2", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 3", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 4", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 5", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 6", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 7", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 8", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 9", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 10", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 11", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 12", "¿Preparado?"),
-    MyMessage("Hola Jetpack Compose 13", "¿Preparado?")
+    MyMessage("Hola Jetpack Compose!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis. Eget class sagittis quisque montes potenti metus massa, vehicula vulputate commodo ante torquent scelerisque netus lacinia, mollis eleifend dui tempor morbi fringilla. Integer et ornare mollis pulvinar porta curae aenean leo vitae mauris, proin pellentesque ligula erat lobortis quam vehicula cubilia odio vivamus, tincidunt tempor posuere gravida volutpat rutrum tempus vestibulum imperdiet."),
+    MyMessage("Hola Jetpack Compose 2!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis."),
+    MyMessage("Hola Jetpack Compose 3!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis. Eget class sagittis quisque montes potenti metus massa, vehicula vulputate commodo ante torquent scelerisque netus lacinia, mollis eleifend dui tempor morbi fringilla. Integer et ornare mollis pulvinar porta curae aenean leo vitae mauris, proin pellentesque ligula erat lobortis quam vehicula cubilia odio vivamus, tincidunt tempor posuere gravida volutpat rutrum tempus vestibulum imperdiet."),
+    MyMessage("Hola Jetpack Compose 4!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis."),
+    MyMessage("Hola Jetpack Compose 5!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis. Eget class sagittis quisque montes potenti metus massa, vehicula vulputate commodo ante torquent scelerisque netus lacinia, mollis eleifend dui tempor morbi fringilla. Integer et ornare mollis pulvinar porta curae aenean leo vitae mauris, proin pellentesque ligula erat lobortis quam vehicula cubilia odio vivamus, tincidunt tempor posuere gravida volutpat rutrum tempus vestibulum imperdiet."),
+    MyMessage("Hola Jetpack Compose 6!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis."),
+    MyMessage("Hola Jetpack Compose 7!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis. Eget class sagittis quisque montes potenti metus massa, vehicula vulputate commodo ante torquent scelerisque netus lacinia, mollis eleifend dui tempor morbi fringilla. Integer et ornare mollis pulvinar porta curae aenean leo vitae mauris, proin pellentesque ligula erat lobortis quam vehicula cubilia odio vivamus, tincidunt tempor posuere gravida volutpat rutrum tempus vestibulum imperdiet."),
+    MyMessage("Hola Jetpack Compose 8!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis."),
+    MyMessage("Hola Jetpack Compose 9!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis. Eget class sagittis quisque montes potenti metus massa, vehicula vulputate commodo ante torquent scelerisque netus lacinia, mollis eleifend dui tempor morbi fringilla. Integer et ornare mollis pulvinar porta curae aenean leo vitae mauris, proin pellentesque ligula erat lobortis quam vehicula cubilia odio vivamus, tincidunt tempor posuere gravida volutpat rutrum tempus vestibulum imperdiet."),
+    MyMessage("Hola Jetpack Compose 10!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis."),
+    MyMessage("Hola Jetpack Compose 11!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis. Eget class sagittis quisque montes potenti metus massa, vehicula vulputate commodo ante torquent scelerisque netus lacinia, mollis eleifend dui tempor morbi fringilla. Integer et ornare mollis pulvinar porta curae aenean leo vitae mauris, proin pellentesque ligula erat lobortis quam vehicula cubilia odio vivamus, tincidunt tempor posuere gravida volutpat rutrum tempus vestibulum imperdiet."),
+    MyMessage("Hola Jetpack Compose 12!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis."),
+    MyMessage("Hola Jetpack Compose 13!", "¿Preparado? Lorem ipsum dolor sit amet consectetur adipiscing, elit aliquet lobortis taciti fusce cursus, rhoncus hac ultricies est venenatis. Eget class sagittis quisque montes potenti metus massa, vehicula vulputate commodo ante torquent scelerisque netus lacinia, mollis eleifend dui tempor morbi fringilla. Integer et ornare mollis pulvinar porta curae aenean leo vitae mauris, proin pellentesque ligula erat lobortis quam vehicula cubilia odio vivamus, tincidunt tempor posuere gravida volutpat rutrum tempus vestibulum imperdiet.")
 )
 
 class MainActivity : ComponentActivity() {
@@ -104,8 +110,17 @@ fun MyTexts(message: MyMessage) {
     /*MyText("Hola Jetpack Compose!")
     MyText("¿Preparado?")*/
 
+    // Así hacemos que sea dinámico y no estático el comportamiento de la app.
+    var expanded by remember {  // Esto permite recargar la interfaz visual automáticamente
+        mutableStateOf(false)  // El mutable es para especificar que la variable puede mutar de estado.
+    }  // Para recordar y saber cuándo un cuadro de texto está o no expandido de forma dinámica.
+
     // De esta manera los tendríamos en filas y orden de primero a último de arriba a abajo
-    Column(modifier = Modifier.padding(start = 8.dp)) {
+    Column(modifier = Modifier
+        .padding(start = 8.dp)
+        .clickable {
+            expanded = !expanded
+        }) {  // Con clickable controlamos el tema del click del usuario en donde este esté concatenado.
         MyText(
             message.title,
             MaterialTheme.colorScheme.primary,
@@ -115,14 +130,17 @@ fun MyTexts(message: MyMessage) {
         MyText(
             message.body,
             MaterialTheme.colorScheme.onBackground,
-            MaterialTheme.typography.bodySmall)
+            MaterialTheme.typography.bodySmall,
+            if (expanded) Int.MAX_VALUE else 1  // Un if de una sola línea.
+        )
     }
 }
 
 // Un componente composable es una función
 @Composable
-fun MyText(text: String, color: Color, style: androidx.compose.ui.text.TextStyle) {
-    Text(text, color = color, style = style)
+fun MyText(text: String, color: Color, style: androidx.compose.ui.text.TextStyle, lines: Int = Int.MAX_VALUE) {
+    Text(text, color = color, style = style, maxLines = lines)  // Con el tema de lines ponemos de
+                                                                // cúanto queremos que sea el máximo de líneas de texto que se muestren.
 }
 
 // Para usar una preview debe ser composable y anotarlo como preview (ahorramos emulador)
