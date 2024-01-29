@@ -40,7 +40,7 @@ fun BodyContent(navController: NavController) {
     ) {
         Text("Hola navegación")
         Button(onClick = {
-            navController.navigate(route = AppScreens.SecondScreen.route)
+            navController.navigate(route = AppScreens.SecondScreen.route + "/Este es un parámetro")
         }) {
             Text("Navega")
         }

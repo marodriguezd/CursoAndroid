@@ -26,7 +26,7 @@ import com.marodriguezd.jetpackcompenavigation.navigation.AppScreens
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")  // Sin esto daba error.
 @Composable
-fun SecondScreen(navController: NavController) {
+fun SecondScreen(navController: NavController, text: String?) {
     Scaffold(topBar = {
         TopAppBar(title = {
             // Vamos a añadir una flecha para volver atrás
@@ -39,19 +39,22 @@ fun SecondScreen(navController: NavController) {
             Text(text = "      SecondScreen")  // No es la mejor opción pero va.
         })
     }) {  // Elemento gráfico para estructurar los elementos más típicos de una pantalla.
-        SecondBodyContent(navController)
+        SecondBodyContent(navController, text)
     }
 }
 
 @Composable
-fun SecondBodyContent(navController: NavController) {
+fun SecondBodyContent(navController: NavController, text: String?) {
     // Vamos a crear una columan con texto y botón.
     Column(  // Esto está modificado así para que se sitúe en el centro de la pantalla.
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Hola navegación")
+        Text("He navegado")
+        text?.let {  // Esto es para comprobar que no sea nulo, y en caso de ser asi seguir con el bloque
+            Text(it)
+        }
         Button(onClick = {
             // navController.navigate(route = AppScreens.FirstScreen.route)
             navController.popBackStack()  // Esto es mejor que lo de arriba, ya que directamente devuelve a la anterior.
