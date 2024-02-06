@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.marodriguezd.firebasetutorial.navigation.AppNavigation
 import com.marodriguezd.firebasetutorial.ui.theme.FirebaseTutorialTheme
 
@@ -21,6 +22,13 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     AppNavigation()
+
+                    // Con este bloque pasamos eventos personalizados a Google Analytics
+                    // Podremos ver tod0 esto en nuestra consola de Firebase
+                    val analytics = FirebaseAnalytics.getInstance(this)
+                    val bundle = Bundle()  // Para pasar los parámetros necesarios
+                    bundle.putString("message", "Integración de Firebase completa")  // Dar clave:valor
+                    analytics.logEvent("InitScreen", bundle)  // Nombre del log y bundle
                 }
             }
         }
