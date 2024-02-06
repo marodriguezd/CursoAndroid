@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.marodriguezd.firebasetutorial.AuthActivity
+import com.marodriguezd.firebasetutorial.HomeActivity
 import com.marodriguezd.firebasetutorial.MainScreen
 import com.marodriguezd.firebasetutorial.SplashScreen
 
@@ -23,6 +25,13 @@ fun AppNavigation() {
         }
         composable(AppScreens.MainScreen.route) {
             MainScreen()
+        }
+        composable(AppScreens.AuthActivity.route) {
+            AuthActivity()
+        }
+        composable(AppScreens.HomeActivity.route) {
+            // TODO: RETOCAR WACHO, ESTO ES TEMPORAL
+            HomeActivity("mock@mock.mock", "Google") {}
         }
     }
 }

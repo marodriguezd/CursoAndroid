@@ -29,7 +29,10 @@ fun SplashScreen(navController: NavController) {
         delay(5000)
         // Una vez arrancada la app no queremos volver al Splash
         navController.popBackStack()  // Limpia el historial de navegación.
-        navController.navigate(AppScreens.MainScreen.route)
+        /** navController.navigate(AppScreens.MainScreen.route)
+         *  Vamos a cambiar a la pantalla de autenticación
+         */
+        navController.navigate(AppScreens.AuthActivity.route)
         // Ahora la última/única pantalla que existe es la main.
     }
     Splash()
