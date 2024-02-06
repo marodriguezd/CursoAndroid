@@ -6,4 +6,6 @@ sealed class AppScreens(val route: String) {
     // Los objetos aquí dentro representan las "pantallas" conteniendo sus rutas/nombres.
     object SplashScreen: AppScreens("splash_screen")
     object MainScreen: AppScreens("main_screen")
+    object AuthActivity: AppScreens("auth_screen")
+    object HomeActivity: AppScreens("home_screen")
 }
