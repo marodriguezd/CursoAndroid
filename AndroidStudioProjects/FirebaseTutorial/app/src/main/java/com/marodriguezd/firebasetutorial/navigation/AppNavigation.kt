@@ -27,7 +27,14 @@ fun AppNavigation() {
             MainScreen()
         }
         composable(AppScreens.AuthActivity.route) {
-            AuthActivity()
+            AuthActivity(
+                onNavigateToHome = {
+                    // Navegar a HomeActivity
+                    navController.navigate(AppScreens.HomeActivity.route) {
+                        popUpTo(AppScreens.AuthActivity.route)
+                    }
+                }
+            )
         }
         composable(AppScreens.HomeActivity.route) {
             // TODO: RETOCAR WACHO, ESTO ES TEMPORAL

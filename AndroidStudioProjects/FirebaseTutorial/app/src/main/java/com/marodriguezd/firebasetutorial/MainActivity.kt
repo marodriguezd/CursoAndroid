@@ -1,13 +1,16 @@
 package com.marodriguezd.firebasetutorial
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.auth.FirebaseAuth
 import com.marodriguezd.firebasetutorial.navigation.AppNavigation
 import com.marodriguezd.firebasetutorial.ui.theme.FirebaseTutorialTheme
 
@@ -21,8 +24,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    // Splash + AuthActivity
                     AppNavigation()
 
+                    // Analytics Event
                     // Con este bloque pasamos eventos personalizados a Google Analytics
                     // Podremos ver tod0 esto en nuestra consola de Firebase
                     val analytics = FirebaseAnalytics.getInstance(this)
