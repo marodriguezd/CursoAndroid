@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -25,14 +26,21 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun AuthActivity() {
+fun AuthActivity(onNavigateToHome: () -> Unit) {
     // Estados para almacenar el texto ingresado por el usuario
     var email by remember {
         mutableStateOf("")
     }
     var password by remember {
+        mutableStateOf("")
+    }
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+    var errorMessage by remember {
         mutableStateOf("")
     }
     var passwordVisibility by remember {
@@ -81,7 +89,18 @@ fun AuthActivity() {
             // Botón para registrar
             Button(
                 onClick = {
-                    // TODO: MANEJAR LA LÓGICA DE REGISTRO
+                    if (email.isNotEmpty() && password.isNotEmpty()) {
+                        FirebaseAuth.getInstance()
+                            .createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    onNavigateToHome()
+                                } else {
+                                    errorMessage = task.exception?.message ?: "Error desconocido"
+                                    showDialog = true
+                                }
+                            }
+                    }
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorBotonRegistrar  // Usar el color Google azul 700 definido
@@ -91,11 +110,25 @@ fun AuthActivity() {
                 Text("Registrar")
             }
 
+            // Diálogo de alerta
+            if (showDialog) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    title = { Text("Error") },
+                    text = { Text(errorMessage) },
+                    confirmButton = {
+                        Button(
+                            onClick = { showDialog = false }
+                        ) {
+                            Text("Aceptar")
+                        }
+                    }
+                )
+            }
+
             // Botón para acceder
             Button(
-                onClick = {
-                    // TODO: MANEJAR LA LÓGICA DE AUTENTICACIÓN
-                },
+                onClick = {},  // De momento ignorado
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorBotonAcceder  // Usar el color Firebase azul marino definido
                 ),
@@ -105,10 +138,4 @@ fun AuthActivity() {
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun AuthActivityPreview() {
-    AuthActivity()
 }
