@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun AuthActivity(onNavigateToHome: () -> Unit) {
+fun AuthActivity(onNavigateToHome: (String, String) -> Unit) {
     // Estados para almacenar el texto ingresado por el usuario
     var email by remember {
         mutableStateOf("")
@@ -94,7 +94,7 @@ fun AuthActivity(onNavigateToHome: () -> Unit) {
                             .createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
-                                    onNavigateToHome()
+                                    onNavigateToHome(email, "Firebase")
                                 } else {
                                     errorMessage = task.exception?.message ?: "Se ha producido un error autenticando al usuario"
                                     showDialog = true
