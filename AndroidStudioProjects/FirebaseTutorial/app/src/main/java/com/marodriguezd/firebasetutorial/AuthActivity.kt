@@ -83,7 +83,7 @@ fun AuthActivity(onNavigateToHome: () -> Unit) {
 
         // Fila para contener ambos botones (Registrar y Acceder)
         Row(
-            modifier = Modifier.fillMaxWidth(),  // La fila ocupa todo el ancho disponible
+            modifier = Modifier.fillMaxWidth(),  // La fila ocupa tod0 el ancho disponible
             horizontalArrangement = Arrangement.spacedBy(8.dp)  // Espacio entre los botones
         ) {
             // Botón para registrar
@@ -96,7 +96,7 @@ fun AuthActivity(onNavigateToHome: () -> Unit) {
                                 if (task.isSuccessful) {
                                     onNavigateToHome()
                                 } else {
-                                    errorMessage = task.exception?.message ?: "Error desconocido"
+                                    errorMessage = task.exception?.message ?: "Se ha producido un error autenticando al usuario"
                                     showDialog = true
                                 }
                             }
