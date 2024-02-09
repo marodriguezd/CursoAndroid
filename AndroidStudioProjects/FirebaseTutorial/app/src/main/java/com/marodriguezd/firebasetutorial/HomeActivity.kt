@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun HomeActivity(email: String, provider: ProviderType, onLogout: () -> Unit) {
@@ -37,12 +38,15 @@ fun HomeActivity(email: String, provider: ProviderType, onLogout: () -> Unit) {
                 modifier = Modifier.padding(bottom = 8.dp) // Agregar un poco de espacio debajo del texto
             )
             Text(
-                text = "Proveedor: $provider",
+                text = "Proveedor: ${provider.name}",
                 modifier = Modifier.padding(bottom = 8.dp) // Agregar un poco de espacio debajo del texto
             )
             Spacer(modifier = Modifier.height(16.dp))  // Espacio entre el texto y el botón
             Button(
-                onClick = onLogout,
+                onClick = {
+                    FirebaseAuth.getInstance().signOut()
+                    onLogout()
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorBotonLogout  // Usar el color Google azul 700 definido
                 ),
@@ -54,10 +58,3 @@ fun HomeActivity(email: String, provider: ProviderType, onLogout: () -> Unit) {
         }
     }
 }
-
-/*
-@Preview(showBackground = true)
-@Composable
-fun HomeActivityPreview() {
-    HomeActivity("mock@mock.mock", "Google") {}
-}*/

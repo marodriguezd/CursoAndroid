@@ -39,20 +39,28 @@ fun AppNavigation() {
             }
         }
         composable(
-            AppScreens.HomeActivity.route,
+            route = AppScreens.HomeActivity.route,
             arguments = listOf(
                 navArgument("email") { type = NavType.StringType },
                 navArgument("provider") { type = NavType.StringType }
             )
         ) { backStackEntry ->
-            val providerType = ProviderType.valueOf(
-                backStackEntry.arguments?.getString("provider") ?: ProviderType.BASIC.name
-            )
             HomeActivity(
                 email = backStackEntry.arguments?.getString("email") ?: "",
-                provider = providerType
+                provider = ProviderType.valueOf(
+                    backStackEntry.arguments?.getString("provider") ?: ProviderType.BASIC.name
+                )
             ) {
-                // TODO: Definir lógica de cierre de sesión
+                // Cuando se cierra sesión, navegamos hacia la pantalla de autenticación
+                navController.navigate(AppScreens.AuthActivity.route) {
+                    // Eliminamos todas las pantallas anteriores del stack de navegación
+                    popUpTo(navController.graph.startDestinationId) {
+                        saveState = true
+                    }
+                    // Restauramos el estado previo si es necesario
+                    launchSingleTop = true
+                    restoreState = true
+                }
             }
         }
     }

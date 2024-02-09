@@ -96,7 +96,8 @@ fun AuthActivity(onNavigateToHome: (String, String) -> Unit) {
                                 if (task.isSuccessful) {
                                     onNavigateToHome(email, "Firebase")
                                 } else {
-                                    errorMessage = task.exception?.message ?: "Se ha producido un error autenticando al usuario"
+                                    errorMessage = task.exception?.message
+                                        ?: "Se ha producido un error autenticando al usuario"
                                     showDialog = true
                                 }
                             }
@@ -128,7 +129,22 @@ fun AuthActivity(onNavigateToHome: (String, String) -> Unit) {
 
             // Botón para acceder
             Button(
-                onClick = {},  // De momento ignorado
+                onClick = {
+                    if (email.isNotEmpty() && password.isNotEmpty()) {
+                        FirebaseAuth.getInstance()
+                            .signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // Aquí asumimos que el proveedor es "BASIC" por ahora
+                                    onNavigateToHome(email, ProviderType.BASIC.name)
+                                } else {
+                                    errorMessage = task.exception?.message
+                                        ?: "Se ha producido un error autenticando al usuario"
+                                    showDialog = true
+                                }
+                            }
+                    }
+                },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = colorBotonAcceder  // Usar el color Firebase azul marino definido
                 ),
