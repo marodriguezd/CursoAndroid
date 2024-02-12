@@ -39,3 +39,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
+/**  PARA BIG-AGI
+ * Ahora para el tema de la autenticación con Google se usará el ProviderType.GOOGLE,
+ * además ya he añadido las dependencias necesarias en el Gradle. Pero primero lo que se va a
+ * implementar es el que se quede autenticado el usuario si se ha autenticado y cerrado la app,
+ * para que al abrirla se mantenga autenticado guardando los datos de que se ha autenticado.
+ */
