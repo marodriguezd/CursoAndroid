@@ -32,7 +32,7 @@ fun AppNavigation() {
         composable(route = AppScreens.AuthActivity.route) { backStackEntry ->
             AuthActivity { email, provider ->
                 // Navegar a HomeActivity con argumentos
-                val route = AppScreens.HomeActivity.createRoute(email, ProviderType.BASIC)
+                val route = AppScreens.HomeActivity.createRoute(email, provider)
                 navController.navigate(route) {
                     popUpTo(AppScreens.AuthActivity.route) { inclusive = true }
                 }
