@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,21 +22,30 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    // LaunchedEffect ejecutará el bloque de código una sola vez si el valor de key1 no cambia.
-    // Si el valor de key1 cambia, el efecto se reinicia y el bloque de código se ejecuta de nuevo.
-    // LaunchedEffect se usa para lanzar efectos secundarios, como tareas asíncronas, dentro del alcance de una corrutina,
-    // y es compatible con la arquitectura de composables de Jetpack Compose.
+    val context = LocalContext.current  // Obtiene el contexto actual de un composable
+
+    // LaunchedEffect ejecutará un bloque de código una sola vez si el valor de key1 no cambia
     LaunchedEffect(key1 = true) {
-        delay(5000)
-        // Una vez arrancada la app no queremos volver al Splash
-        navController.popBackStack()  // Limpia el historial de navegación.
-        /** navController.navigate(AppScreens.MainScreen.route)
-         *  Vamos a cambiar a la pantalla de autenticación
-         */
-        navController.navigate(AppScreens.AuthActivity.route)
-        // Ahora la última/única pantalla que existe es la main.
+        // delay(2000)  // Mock de carga de recursos durante 2 segundos
+
+        // Ahora decide a dónde navegar basado en si el usuario está autenticado
+        val (email, provider) = getUserData(context)
+        if (email != null && provider != null) {
+            // Si hay datos de usuario, asumimos que el usuario está "autenticado"
+            // y navegamos a HomeActivity
+            val route = AppScreens.HomeActivity.createRoute(email, ProviderType.valueOf(provider))
+            navController.navigate(route) {
+                popUpTo(AppScreens.SplashScreen.route) { inclusive = true }
+            }
+        } else {
+            // No hay datos de usuario, navegar a la pantalla de autenticación
+            navController.navigate(AppScreens.AuthActivity.route) {
+                popUpTo(AppScreens.SplashScreen.route) { inclusive = true }
+            }
+        }
     }
-    Splash()
+
+    // Splash()  // Muestra el contenido de tu SplashScreen
 }
 
 @Composable

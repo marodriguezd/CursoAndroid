@@ -24,9 +24,6 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // Splash + AuthActivity
-                    AppNavigation()
-
                     // Analytics Event
                     // Con este bloque pasamos eventos personalizados a Google Analytics
                     // Podremos ver tod0 esto en nuestra consola de Firebase
@@ -34,8 +31,25 @@ class MainActivity : ComponentActivity() {
                     val bundle = Bundle()  // Para pasar los parámetros necesarios
                     bundle.putString("message", "Integración de Firebase completa")  // Dar clave:valor
                     analytics.logEvent("InitScreen", bundle)  // Nombre del log y bundle
+
+                    // Comprobar si el usuario ya está autenticado
+                    val (email, provider) = getUserData(this@MainActivity)
+                    if (email != null && provider != null) {
+                        // Usuario ya autenticado, ir directamente a HomeActivity
+                        HomeActivity(email, ProviderType.valueOf(provider)) {
+                            // Lógica para cerrar sesión
+                        }
+                    } else {
+                        // Usuario no autenticado, mostrar pantalla de autenticación
+                        // Splash + AuthActivity
+                        AppNavigation()
+                    }
                 }
             }
         }
     }
 }
+
+/**
+ * HE SUPRIMIDO EL SPLASH DE MANERA TEMPORAL PARA NO PERDER MÁS TIEMPO.
+ */
