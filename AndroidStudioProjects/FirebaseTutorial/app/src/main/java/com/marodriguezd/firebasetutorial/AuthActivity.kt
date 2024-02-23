@@ -36,7 +36,7 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
     var password by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
-    var passwordVisibility by remember { mutableStateOf(false) }
+    val passwordVisibility by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -71,12 +71,12 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Button(
-                onClick = {  // *
+                onClick = {
                     if (email.isNotEmpty() && password.isNotEmpty()) {
                         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
-                                    saveUserData(context, email, ProviderType.BASIC.name)  // Pasa el contexto aquí
+                                    saveUserData(context, email, ProviderType.BASIC.name)
                                     onNavigateToHome(email, ProviderType.BASIC)
                                 } else {
                                     errorMessage = task.exception?.message
@@ -85,20 +85,20 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
                                 }
                             }
                     }
-                }, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1967D2)),
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1967D2)),
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Registrar")
             }
 
             Button(
-                onClick = {  // *
+                onClick = {
                     if (email.isNotEmpty() && password.isNotEmpty()) {
                         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
-                                    // Aquí asumimos que el proveedor es "BASIC" por ahora
-                                    saveUserData(context, email, ProviderType.BASIC.name)  // Pasa el contexto aquí
+                                    saveUserData(context, email, ProviderType.BASIC.name)
                                     onNavigateToHome(email, ProviderType.BASIC)
                                 } else {
                                     errorMessage = task.exception?.message
@@ -107,7 +107,8 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
                                 }
                             }
                     }
-                }, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1B3A57)),
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1B3A57)),
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Acceder")
@@ -141,16 +142,8 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
 
         val googleSignInLauncher = rememberLauncherForActivityResult(
             ActivityResultContracts.StartActivityForResult()
-        ) { result ->  // *
-            if (result.resultCode == android.app.Activity.RESULT_OK) {
-                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                try {
-                    val account = task.getResult(ApiException::class.java)
-                    firebaseAuthWithGoogle(account.idToken!!, context, onNavigateToHome)
-                } catch (e: ApiException) {
-                    // Manejar excepción, por ejemplo, mostrando un diálogo de error
-                }
-            }
+        ) { result ->
+            handleGoogleSignInResult(result, context, onNavigateToHome)
         }
 
 
@@ -178,18 +171,44 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
     }
 }
 
+/**
+ * Maneja el resultado del intento de inicio de sesión con Google.
+ */
+private fun handleGoogleSignInResult(result: androidx.activity.result.ActivityResult, context: Context, onNavigateToHome: (String, ProviderType) -> Unit) {
+    if (result.resultCode == android.app.Activity.RESULT_OK) {
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            firebaseAuthWithGoogle(account.idToken!!, context, onNavigateToHome)
+        } catch (e: ApiException) {
+            // Manejar excepción
+        }
+    }
+}
+
+/**
+ * Autentica un usuario con Google utilizando Firebase Authentication.
+ *
+ * Este método toma el token ID de Google SignIn y lo utiliza para autenticar con Firebase,
+ * permitiendo así el inicio de sesión o registro del usuario en la aplicación.
+ * Una vez autenticado, guarda los datos del usuario y navega a la pantalla de inicio.
+ */
 fun firebaseAuthWithGoogle(idToken: String, context: Context, onNavigateToHome: (String, ProviderType) -> Unit) {
+    // Obtiene las credenciales de autenticación de Google para el token ID proporcionado.
     val credential = GoogleAuthProvider.getCredential(idToken, null)
+
+    // Intenta iniciar sesión en Firebase con las credenciales de Google
     FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener { task ->
         if (task.isSuccessful) {
+            // Si la autenticación es exitosa, obtiene el usuario de Firebase.
             val user = task.result?.user
             if (user != null) {
-                // Guardar datos del usuario y navegar a Home
+                // Guarda los datos del usuario y navega a la pantalla de inicio con el proveedor GOOGLE.
                 saveUserData(context, user.email!!, ProviderType.GOOGLE.name)
                 onNavigateToHome(user.email!!, ProviderType.GOOGLE)
             }
         } else {
-            // Manejar fallo en el inicio de sesión, por ejemplo, mostrando un diálogo de error
+            // En caso de fallo en la autenticación, se podría manejar mostrando un mensaje de error.
         }
     }
 }
