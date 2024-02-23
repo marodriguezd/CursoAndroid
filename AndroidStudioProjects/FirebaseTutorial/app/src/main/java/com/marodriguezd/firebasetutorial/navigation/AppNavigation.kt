@@ -6,38 +6,44 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.marodriguezd.firebasetutorial.AuthActivity
-import com.marodriguezd.firebasetutorial.HomeActivity
-import com.marodriguezd.firebasetutorial.MainScreen
-import com.marodriguezd.firebasetutorial.ProviderType
-import com.marodriguezd.firebasetutorial.SplashScreen
+import com.marodriguezd.firebasetutorial.*
 
+/**
+ * Define la navegación de la aplicación utilizando Compose Navigation.
+ * Se configuran las rutas y los destinos de navegación de la aplicación.
+ */
 @Composable
 fun AppNavigation() {
-    // Crear controlador de navegación por defecto
-    val navController = rememberNavController()  // remember para que recuerde donde está
+    // Se inicializa el NavController, que gestiona la navegación entre composables.
+    val navController = rememberNavController()
 
-    // Crear el host
-    NavHost(
-        navController = navController,
-        startDestination = AppScreens.SplashScreen.route,
-    ) {  // Esto reemplaza al builder
+    // Define el host de navegación, especificando el destino de inicio y configurando las rutas.
+    NavHost(navController = navController, startDestination = AppScreens.SplashScreen.route) {
+
+        // Define la ruta y el composable para la pantalla de inicio (SplashScreen).
         composable(AppScreens.SplashScreen.route) {
-            // El controlador de navegación es quien permite navegar.
             SplashScreen(navController)
         }
+
+        // Define la ruta y el composable para la pantalla principal (MainScreen).
         composable(AppScreens.MainScreen.route) {
             MainScreen()
         }
-        composable(route = AppScreens.AuthActivity.route) { backStackEntry ->
+
+        // Define la ruta y el composable para la actividad de autenticación (AuthActivity).
+        composable(route = AppScreens.AuthActivity.route) {
             AuthActivity { email, provider ->
-                // Navegar a HomeActivity con argumentos
+                // Navega a HomeActivity pasando email y provider como argumentos.
                 val route = AppScreens.HomeActivity.createRoute(email, provider)
                 navController.navigate(route) {
+                    // Limpia el stack de navegación hasta AuthActivity.
                     popUpTo(AppScreens.AuthActivity.route) { inclusive = true }
                 }
             }
         }
+
+        // Define la ruta y el composable para la actividad principal (HomeActivity),
+        // incluyendo los argumentos necesarios para su inicialización.
         composable(
             route = AppScreens.HomeActivity.route,
             arguments = listOf(
@@ -51,13 +57,10 @@ fun AppNavigation() {
                     backStackEntry.arguments?.getString("provider") ?: ProviderType.BASIC.name
                 )
             ) {
-                // Cuando se cierra sesión, navegamos hacia la pantalla de autenticación
+                // Navega hacia AuthActivity cuando se cierra sesión, limpiando el stack de navegación.
                 navController.navigate(AppScreens.AuthActivity.route) {
-                    // Eliminamos todas las pantallas anteriores del stack de navegación
-                    popUpTo(navController.graph.startDestinationId) {
-                        saveState = true
-                    }
-                    // Restauramos el estado previo si es necesario
+                    // Elimina todas las pantallas anteriores del stack y restaura el estado si es necesario.
+                    popUpTo(navController.graph.startDestinationId) { saveState = true }
                     launchSingleTop = true
                     restoreState = true
                 }
