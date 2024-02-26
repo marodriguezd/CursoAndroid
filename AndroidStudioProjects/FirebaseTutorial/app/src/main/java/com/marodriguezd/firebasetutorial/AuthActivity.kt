@@ -21,6 +21,12 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
+/**
+ * ESTE ES EL MÁS PELIGROSO
+ * DEJAR YA COMO ESTÁ QUE FUNCIONA
+ *
+ * IGNORAR ESTE COMO EJEMPLO PARA CHATGPT
+ */
 
 /**
  * Pantalla de autenticación que permite a los usuarios registrarse o iniciar sesión con email y contraseña,
