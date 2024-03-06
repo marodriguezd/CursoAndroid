@@ -9,6 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
+/**
+ * MainScreen es la pantalla principal de la aplicación, mostrando un mensaje de bienvenida o el
+ * contenido principal.
+ */
 @Composable
 fun MainScreen() {
     Column(
@@ -20,6 +24,9 @@ fun MainScreen() {
     }
 }
 
+/**
+ * MainScreenPreview proporciona una vista previa de MainScreen dentro del entorno de desarrollo.
+ */
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
