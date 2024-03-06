@@ -1,55 +1,63 @@
 package com.marodriguezd.firebasetutorial
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.auth.FirebaseAuth
 import com.marodriguezd.firebasetutorial.navigation.AppNavigation
 import com.marodriguezd.firebasetutorial.ui.theme.FirebaseTutorialTheme
 
 /**
- * SEGUIR DOCUMENTANDO DESDE AQUÍ
+ * MainActivity sirve como punto de entrada para la aplicación, estableciendo el tema
+ * y navegación inicial basada en el estado de autenticación del usuario.
  */
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FirebaseTutorialTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // Analytics Event
-                    // Con este bloque pasamos eventos personalizados a Google Analytics
-                    // Podremos ver tod0 esto en nuestra consola de Firebase
-                    val analytics = FirebaseAnalytics.getInstance(this)
-                    val bundle = Bundle()  // Para pasar los parámetros necesarios
-                    bundle.putString("message", "Integración de Firebase completa")  // Dar clave:valor
-                    analytics.logEvent("InitScreen", bundle)  // Nombre del log y bundle
-
-                    // Comprobar si el usuario ya está autenticado
-                    val (email, provider) = getUserData(this@MainActivity)
-                    if (email != null && provider != null) {
-                        // Usuario ya autenticado, ir directamente a HomeActivity
-                        HomeActivity(email, ProviderType.valueOf(provider)) {
-                            // Lógica para cerrar sesión
-                        }
-                    } else {
-                        // Usuario no autenticado, mostrar pantalla de autenticación
-                        // Splash + AuthActivity
-                        AppNavigation()
-                    }
+                    logAnalyticsEvent()
+                    navigateBasedOnAuthentication()
                 }
             }
+        }
+    }
+
+    /**
+     * Registra un evento en Firebase Analytics al iniciar la aplicación.
+     */
+    fun logAnalyticsEvent() {
+        val analytics = FirebaseAnalytics.getInstance(this)
+        val bundle = Bundle().apply {
+            putString("message", "Integración de Firebase completa")
+        }
+        analytics.logEvent("InitScreen", bundle)
+    }
+
+    /**
+     * Determina la navegación inicial basada en el estado de autenticación del usuario,
+     * dirigiéndolo a HomeActivity si está autenticado o a AppNavigation si no lo está.
+     */
+    @Composable
+    fun navigateBasedOnAuthentication() {
+        val (email, provider) = getUserData(this)
+        if (email != null && provider != null) {
+            HomeActivity(email, ProviderType.valueOf(provider)) {
+                // Lógica para cerrar sesión
+            }
+        } else {
+            // Usuario no autenticado, mostrar pantalla de autenticación
+            // Splash + AuthActivity
+            AppNavigation()
         }
     }
 }
