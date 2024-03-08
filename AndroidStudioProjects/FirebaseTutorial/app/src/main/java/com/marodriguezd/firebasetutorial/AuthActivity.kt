@@ -174,6 +174,28 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
             Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             Text("Google", color = Color.Black)
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                // Implementar lógica de inicio de sesión de Facebook aquí
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            colors = ButtonDefaults.outlinedButtonColors(containerColor = Color(0xFF4267B2), contentColor = Color.White),
+            border = BorderStroke(1.dp, Color.LightGray)
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.facebook),
+                contentDescription = "Facebook sign-in",
+                modifier = Modifier.size(24.dp),
+                tint = Color.Unspecified
+            )
+            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            Text("Facebook")
+        }
     }
 }
 
