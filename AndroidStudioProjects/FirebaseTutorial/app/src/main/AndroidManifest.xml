@@ -12,10 +12,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirebaseTutorial"
         tools:targetApi="31">
+
+        <!-- Meta-data para la inicialización automática del SDK de Facebook -->
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <meta-data android:name="com.facebook.sdk.ClientToken" android:value="9134529cf846dbdc8e11210edd7a62e8"/>
+
+        <!-- Facebook Activity -->
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" />
+
+        <!-- Facebook ContentProvider para la inicialización automática -->
+        <provider android:authorities="com.facebook.app.FacebookContentProvider1326313198041447"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.FirebaseTutorial">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
