@@ -10,6 +10,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter() // JCenter todavía puede ser necesario para algunas dependencias
     }
 }
 

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Firebase Tutorial</string>
     <string name="default_web_client_id">750678361406-989qehsnnt3hq1pp4jecvt5m7huhf2eb.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">1326313198041447</string>
 </resources>

@@ -1,6 +1,9 @@
 package com.marodriguezd.firebasetutorial
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -15,9 +18,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.facebook.AccessToken
+import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
@@ -37,6 +43,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 @Composable
 fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
     val context = LocalContext.current
+    val activity = context.findActivity()
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -177,9 +184,30 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        val facebookSignInLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult(),
+            onResult = { _ ->
+                // val data = result.data
+                val accessToken = AccessToken.getCurrentAccessToken()
+                val isSignedIn = accessToken != null && accessToken.isExpired
+
+                if (isSignedIn && accessToken != null) {
+                    // Llama a la función para manejar la autenticación con Firebase
+                    handleFacebookSignInResult(accessToken, context, onNavigateToHome)
+                }
+            }
+        )
+
         Button(
             onClick = {
-                // Implementar lógica de inicio de sesión de Facebook aquí
+                // Iniciar el flujo de inicio de sesión de Facebook
+                activity?.let {
+                    LoginManager.getInstance().logInWithReadPermissions(
+                        it,  // Pasando la actividad obtenida
+                        listOf("email", "public_profile")
+                    )
+                    // facebookSignInLauncher.launch(Intent())
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -221,7 +249,7 @@ private fun handleGoogleSignInResult(result: androidx.activity.result.ActivityRe
  * permitiendo así el inicio de sesión o registro del usuario en la aplicación.
  * Una vez autenticado, guarda los datos del usuario y navega a la pantalla de inicio.
  */
-fun firebaseAuthWithGoogle(idToken: String, context: Context, onNavigateToHome: (String, ProviderType) -> Unit) {
+private fun firebaseAuthWithGoogle(idToken: String, context: Context, onNavigateToHome: (String, ProviderType) -> Unit) {
     // Obtiene las credenciales de autenticación de Google para el token ID proporcionado.
     val credential = GoogleAuthProvider.getCredential(idToken, null)
 
@@ -239,4 +267,26 @@ fun firebaseAuthWithGoogle(idToken: String, context: Context, onNavigateToHome: 
             // En caso de fallo en la autenticación, se podría manejar mostrando un mensaje de error.
         }
     }
+}
+
+private fun handleFacebookSignInResult(accessToken: AccessToken, context: Context, onNavigateToHome: (String, ProviderType) -> Unit) {
+    val credential = FacebookAuthProvider.getCredential(accessToken.token)
+    FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener { task ->
+        if (task.isSuccessful) {
+            val user = task.result?.user
+            if (user != null) {
+                saveUserData(context, user.email ?: "", ProviderType.FACEBOOK.name)
+                onNavigateToHome(user.email ?: "", ProviderType.FACEBOOK)
+            }
+        } else {
+            // Manejar error
+        }
+    }
+}
+
+// Función de extensión para obtener la Activity desde un Context
+fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
 }
