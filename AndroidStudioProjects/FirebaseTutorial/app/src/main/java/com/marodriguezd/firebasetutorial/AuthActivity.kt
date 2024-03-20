@@ -204,7 +204,7 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
                 activity?.let {
                     LoginManager.getInstance().logInWithReadPermissions(
                         it,  // Pasando la actividad obtenida
-                        listOf("email", "public_profile")
+                        listOf("email")//, "public_profile")
                     )
                     // facebookSignInLauncher.launch(Intent())
                 }
@@ -275,8 +275,10 @@ private fun handleFacebookSignInResult(accessToken: AccessToken, context: Contex
         if (task.isSuccessful) {
             val user = task.result?.user
             if (user != null) {
-                saveUserData(context, user.email ?: "", ProviderType.FACEBOOK.name)
-                onNavigateToHome(user.email ?: "", ProviderType.FACEBOOK)
+                // Asegurar que el email no sea nulo antes de guardar
+                val userEmail = user.email ?: "No email"  // Considerar alternativa si no hay email
+                saveUserData(context, userEmail, ProviderType.FACEBOOK.name)
+                onNavigateToHome(userEmail, ProviderType.FACEBOOK)
             }
         } else {
             // Manejar error
