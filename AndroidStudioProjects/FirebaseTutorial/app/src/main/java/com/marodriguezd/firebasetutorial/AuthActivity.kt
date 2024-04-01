@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -169,7 +170,10 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
-            colors = ButtonDefaults.outlinedButtonColors(containerColor = Color(0xFFf2f2f2),contentColor = Color.Unspecified),
+            colors = ButtonDefaults.outlinedButtonColors(
+                containerColor = Color(0xFFf2f2f2),
+                contentColor = Color.Unspecified
+            ),
             border = BorderStroke(1.dp, Color.LightGray)
         ) {
             Icon(
@@ -187,32 +191,40 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
         val facebookSignInLauncher = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.StartActivityForResult(),
             onResult = { _ ->
-                // val data = result.data
-                val accessToken = AccessToken.getCurrentAccessToken()
-                val isSignedIn = accessToken != null && accessToken.isExpired
-
-                if (isSignedIn && accessToken != null) {
-                    // Llama a la función para manejar la autenticación con Firebase
-                    handleFacebookSignInResult(accessToken, context, onNavigateToHome)
-                }
+                // Solo para propósitos de prueba
+                onNavigateToHome("test@example.com", ProviderType.FACEBOOK)
             }
         )
 
+        /*val facebookSignInLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult(),
+            onResult = { _ ->
+                // val data = result.data
+                val accessToken = AccessToken.getCurrentAccessToken()
+                val isSignedIn = accessToken != null && !accessToken.isExpired
+
+                if (isSignedIn) {
+                    // Llama a la función para manejar la autenticación con Firebase
+                    handleFacebookSignInResult(accessToken!!, context, onNavigateToHome)
+                }
+            }
+        )*/
+
         Button(
             onClick = {
-                // Iniciar el flujo de inicio de sesión de Facebook
-                activity?.let {
-                    LoginManager.getInstance().logInWithReadPermissions(
-                        it,  // Pasando la actividad obtenida
-                        listOf("email")//, "public_profile")
-                    )
-                    // facebookSignInLauncher.launch(Intent())
-                }
+                LoginManager.getInstance().logInWithReadPermissions(
+                    activity as Activity,  // Pasando la actividad obtenida
+                    listOf("email", "public_profile")
+                )
+                // facebookSignInLauncher.launch(Intent())
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
-            colors = ButtonDefaults.outlinedButtonColors(containerColor = Color(0xFF4267B2), contentColor = Color.White),
+            colors = ButtonDefaults.outlinedButtonColors(
+                containerColor = Color(0xFF4267B2),
+                contentColor = Color.White
+            ),
             border = BorderStroke(1.dp, Color.LightGray)
         ) {
             Icon(
@@ -230,7 +242,11 @@ fun AuthActivity(onNavigateToHome: (String, ProviderType) -> Unit) {
 /**
  * Maneja el resultado del intento de inicio de sesión con Google.
  */
-private fun handleGoogleSignInResult(result: androidx.activity.result.ActivityResult, context: Context, onNavigateToHome: (String, ProviderType) -> Unit) {
+private fun handleGoogleSignInResult(
+    result: androidx.activity.result.ActivityResult,
+    context: Context,
+    onNavigateToHome: (String, ProviderType) -> Unit
+) {
     if (result.resultCode == android.app.Activity.RESULT_OK) {
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
         try {
@@ -249,7 +265,11 @@ private fun handleGoogleSignInResult(result: androidx.activity.result.ActivityRe
  * permitiendo así el inicio de sesión o registro del usuario en la aplicación.
  * Una vez autenticado, guarda los datos del usuario y navega a la pantalla de inicio.
  */
-private fun firebaseAuthWithGoogle(idToken: String, context: Context, onNavigateToHome: (String, ProviderType) -> Unit) {
+private fun firebaseAuthWithGoogle(
+    idToken: String,
+    context: Context,
+    onNavigateToHome: (String, ProviderType) -> Unit
+) {
     // Obtiene las credenciales de autenticación de Google para el token ID proporcionado.
     val credential = GoogleAuthProvider.getCredential(idToken, null)
 
@@ -269,16 +289,20 @@ private fun firebaseAuthWithGoogle(idToken: String, context: Context, onNavigate
     }
 }
 
-private fun handleFacebookSignInResult(accessToken: AccessToken, context: Context, onNavigateToHome: (String, ProviderType) -> Unit) {
+private fun handleFacebookSignInResult(
+    accessToken: AccessToken,
+    context: Context,
+    onNavigateToHome: (String, ProviderType) -> Unit
+) {
     val credential = FacebookAuthProvider.getCredential(accessToken.token)
     FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener { task ->
         if (task.isSuccessful) {
             val user = task.result?.user
-            if (user != null) {
+            if (user != null && user.email != null) {
                 // Asegurar que el email no sea nulo antes de guardar
-                val userEmail = user.email ?: "No email"  // Considerar alternativa si no hay email
-                saveUserData(context, userEmail, ProviderType.FACEBOOK.name)
-                onNavigateToHome(userEmail, ProviderType.FACEBOOK)
+                saveUserData(context, user.email!!, ProviderType.FACEBOOK.name)
+                onNavigateToHome(user.email!!, ProviderType.FACEBOOK)
+                Log.d("AuthActivity", "Facebook sign-in successful. Email: ${user.email}")
             }
         } else {
             // Manejar error
